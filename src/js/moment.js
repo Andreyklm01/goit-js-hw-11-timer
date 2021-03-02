@@ -2,7 +2,7 @@ function pad(value) {
   return String(value).padStart(2, '0');
 }
 
-function format(time) {
+function getFormatTime(time) {
   const days = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
   const hours = pad(
     Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
@@ -14,7 +14,7 @@ function format(time) {
 }
 
 function moment(time) {
-  return format(time);
+  return getFormatTime(time);
 }
 
 export default moment;

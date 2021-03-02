@@ -3,33 +3,34 @@ import moment from './moment';
 class Countertimer {
   constructor({ selector, targetDate }) {
     this.targetDate = targetDate;
+    this.intervalId = null;
     this.refs = {
-      _days: document.querySelector(`${selector} [data-value="days"]`),
-      _hours: document.querySelector(`${selector} [data-value="hours"]`),
-      _mins: document.querySelector(`${selector} [data-value="mins"]`),
-      _secs: document.querySelector(`${selector} [data-value="secs"]`),
+      daysRef: document.querySelector(`${selector} [data-value="days"]`),
+      hoursRef: document.querySelector(`${selector} [data-value="hours"]`),
+      minsRef: document.querySelector(`${selector} [data-value="mins"]`),
+      secsRef: document.querySelector(`${selector} [data-value="secs"]`),
     };
-    this.timerId = null;
   }
   start() {
-    this.timerId = setInterval(() => {
-      const delta = this.targetDate - Date.now();
+    this.intervalId = setInterval(() => {
+      const currentDate = Date.now();
+      const delta = this.targetDate - currentDate;
       const time = moment(delta);
-      this.updateInterface(time);
+      this.updateValues(time);
     }, 1000);
   }
-  updateInterface({ days, hours, mins, secs }) {
-    const { _days, _hours, _mins, _secs } = this.refs;
-    _days.textContent = days;
-    _hours.textContent = hours;
-    _mins.textContent = mins;
-    _secs.textContent = secs;
+  updateValues({ days, hours, mins, secs }) {
+    const { daysRef, hoursRef, minsRef, secsRef } = this.refs;
+    daysRef.textContent = days;
+    hoursRef.textContent = hours;
+    minsRef.textContent = mins;
+    secsRef.textContent = secs;
   }
 }
 
 function initTimer(selector, targetDate) {
-  const newTimer = new Countertimer({ selector, targetDate });
-  newTimer.start();
+  const timer = new Countertimer({ selector, targetDate });
+  timer.start();
 }
 
 initTimer('#timer-1', new Date('Jul 17, 2021'));
